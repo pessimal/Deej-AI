@@ -59,7 +59,7 @@ if __name__ == '__main__':
         files = []
         done = os.listdir(dump_directory)
         for filename, full_path in walkmp3s(mp3_directory):
-            file_name, ext = filename[:-len(os.path.splitext(filename)[1])], os.path.splitext(filename)[1]
+            file_name, ext = full_path[:-len(os.path.splitext(filename)[1])], os.path.splitext(filename)[1]
             pickle_filename = file_name.replace('\\', '_').replace('/', '_').replace(':','_') + '.p'
             if pickle_filename in done:
                 continue
