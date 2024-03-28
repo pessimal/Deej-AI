@@ -15,7 +15,7 @@ import random
 def walkmp3s(folder):
     for dirpath, dirs, files in os.walk(folder, topdown=False):
         for filename in files:
-            if filename[-3:].lower() == 'mp3' or filename[-3:].lower() == 'm4a':
+            if filename[-3:].lower() == 'mp3' or filename[-3:].lower() == 'm4a' or filename[-4:].lower() == 'flac':
                 yield filename, os.path.abspath(os.path.join(dirpath, filename))
 
 if __name__ == '__main__':
