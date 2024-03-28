@@ -1,3 +1,4 @@
+#!/home/picard/git/Deej-AI/venv/bin/python
 import warnings
 
 warnings.filterwarnings("ignore")
@@ -15,7 +16,7 @@ import random
 def walkmp3s(folder):
     for dirpath, dirs, files in os.walk(folder, topdown=False):
         for filename in files:
-            if filename[-3:].lower() == 'mp3' or filename[-3:].lower() == 'm4a':
+            if filename[-3:].lower() == 'mp3' or filename[-3:].lower() == 'm4a' or filename[-4:].lower() == 'flac':
                 yield filename, os.path.abspath(os.path.join(dirpath, filename))
 
 if __name__ == '__main__':
@@ -58,7 +59,8 @@ if __name__ == '__main__':
         files = []
         done = os.listdir(dump_directory)
         for filename, full_path in walkmp3s(mp3_directory):
-            pickle_filename = (full_path[:-3]).replace('\\', '_').replace('/', '_').replace(':','_') + 'p'
+            file_name, ext = filename[:-len(os.path.splitext(filename)[1])], os.path.splitext(filename)[1]
+            pickle_filename = file_name.replace('\\', '_').replace('/', '_').replace(':','_') + 'p'
             if pickle_filename in done:
                 continue
             files.append((pickle_filename, full_path))

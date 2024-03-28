@@ -1,3 +1,4 @@
+#!/home/picard/git/Deej-AI/venv/bin/python
 import os
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
@@ -223,10 +224,11 @@ def get_mp3tovec(content_string, filename):
     start = time.time()
     print(f'Analyzing {filename}')
     decoded = base64.b64decode(content_string)
-    with open('dummy.' + filename[-3:], 'wb') as file: # this is really annoying!
+    file_name, ext = filename[:-len(os.path.splitext(filename)[1])], os.path.splitext(filename)[1]
+    with open('dummy.' + ext, 'wb') as file: # this is really annoying!
         shutil.copyfileobj(BytesIO(decoded), file, length=131072)
-    y, sr = librosa.load('dummy.' + filename[-3:], mono=True)
-    os.remove('dummy.' + filename[-3:])
+    y, sr = librosa.load('dummy.' + ext, mono=True)
+    os.remove('dummy.' + ext)
     S = librosa.feature.melspectrogram(y=y, sr=sr, n_fft=n_fft, hop_length=hop_length, n_mels=n_mels, fmax=sr/2)
     x = np.ndarray(shape=(S.shape[1] // slice_size, n_mels, slice_size, 1), dtype=float)
     for slice in range(S.shape[1] // slice_size):
